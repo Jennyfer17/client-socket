@@ -46,24 +46,51 @@ document.getElementById('loginForm').addEventListener('submit', function(e) {
     
     const accountNumber = document.getElementById('accountNumber').value.trim();
     const errorMessage = document.getElementById('errorMessage');
+    fetch(`http://localhost:8080/api/bank-accounts/${accountNumber}`)
+        .then(response => response.json())
+        .then(account => {
+            if (account) {
+                // Guardar dados da conta no localStorage
+                console.log(account);
+                localStorage.setItem('currentAccount', JSON.stringify(account));
+                window.location.href = 'dashboard.html';
+                // Redirecionar para o dashboard
+            } else {
+                // Mostrar mensagem de erro
+                errorMessage.style.display = 'block';
+                document.getElementById('accountNumber').value = '';
+
+                // Esconder mensagem de erro após 3 segundos
+                setTimeout(() => {
+                    errorMessage.style.display = 'none';
+                }, 3000);
+            }
+        });
+    });
+
+// document.getElementById('loginForm').addEventListener('submit', function(e) {
+//     e.preventDefault();
     
-    if (accounts[accountNumber]) {
-        // Guardar dados da conta no localStorage
-        localStorage.setItem('currentAccount', JSON.stringify(accounts[accountNumber]));
+//     const accountNumber = document.getElementById('accountNumber').value.trim();
+//     const errorMessage = document.getElementById('errorMessage');
+    
+//     if (accounts[accountNumber]) {
+//         // Guardar dados da conta no localStorage
+//         localStorage.setItem('currentAccount', JSON.stringify(accounts[accountNumber]));
         
-        // Redirecionar para o dashboard
-        window.location.href = 'dashboard.html';
-    } else {
-        // Mostrar mensagem de erro
-        errorMessage.style.display = 'block';
-        document.getElementById('accountNumber').value = '';
+//         // Redirecionar para o dashboard
+//         window.location.href = 'dashboard.html';
+//     } else {
+//         // Mostrar mensagem de erro
+//         errorMessage.style.display = 'block';
+//         document.getElementById('accountNumber').value = '';
         
-        // Esconder mensagem de erro após 3 segundos
-        setTimeout(() => {
-            errorMessage.style.display = 'none';
-        }, 3000);
-    }
-});
+//         // Esconder mensagem de erro após 3 segundos
+//         setTimeout(() => {
+//             errorMessage.style.display = 'none';
+//         }, 3000);
+//     }
+// });
 
 // Limpar dados ao carregar a página
 window.addEventListener('load', function() {
