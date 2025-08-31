@@ -1,6 +1,6 @@
 let currentAccount = null;
 let transactions = [];
-const socket = new SockJS('http://localhost:8080/ws');
+const socket = new SockJS('http://10.214.231.8:8080/ws');
 const stompClient = Stomp.over(socket);
 
 window.addEventListener('load', function () {
@@ -234,7 +234,7 @@ function printStatement() {
 }
 
 function establishingConnection() {
-    let socket = new SockJS('http://localhost:8080/ws');
+    let socket = new SockJS('http://10.214.231.8:8080/ws');
     let stompClient = Stomp.over(socket);
     stompClient.connect({}, function (frame) {
         console.log('Conectado: ' + frame);
